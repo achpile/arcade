@@ -23,6 +23,7 @@ namespace ach {
 		sf::Vector2f        vel;
 
 		unsigned int        score;
+		unsigned int        lives;
 		float               posX;
 		bool                tiles[ARCADE_ARKANOID_X][ARCADE_ARKANOID_Y];
 		bool                glue;
@@ -37,8 +38,13 @@ namespace ach {
 
 		void move();
 		void shot();
+		void die();
+		void create();
 		bool check();
-		void collide();
+		void collidePaddle();
+		void collideTiles();
+		bool collideTile(sf::FloatRect rect);
+		void drawLives();
 		void drawPaddle();
 		void drawSquare();
 		void drawTile(int x, int j);
