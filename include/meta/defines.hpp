@@ -58,6 +58,11 @@
 #define ARCADE_ARKANOID_OFFSET_Y 53
 #define ARCADE_ARKANOID_SPEED    250.0f
 
+#define ARCADE_SIMON_SIZE_X      250
+#define ARCADE_SIMON_SIZE_Y      200
+#define ARCADE_SIMON_OFFSET_X    3
+#define ARCADE_SIMON_OFFSET_Y    53
+
 
 
 /***********************************************************************

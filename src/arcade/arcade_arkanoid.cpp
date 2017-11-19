@@ -26,7 +26,7 @@ ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 	hitTile    = new sf::SoundBuffer();
 	clear      = new sf::SoundBuffer();
 
-	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
+	border->setPosition(ARCADE_ARKANOID_OFFSET_X - 1, ARCADE_ARKANOID_OFFSET_Y - 1);
 	border->setFillColor(sf::Color::Black);
 	border->setOutlineColor(sf::Color::White);
 	border->setOutlineThickness(1);
