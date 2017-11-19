@@ -19,9 +19,13 @@ namespace ach {
 		sf::RectangleShape *square;
 		sf::RectangleShape *border;
 		sf::Text           *labelScore;
+		sf::Vector2f        pos;
+		sf::Vector2f        vel;
 
 		unsigned int        score;
-		float               pos;
+		float               posX;
+		bool                tiles[ARCADE_ARKANOID_X][ARCADE_ARKANOID_Y];
+		bool                glue;
 
 
 		 ArcadeArkanoid();
@@ -33,6 +37,9 @@ namespace ach {
 
 		void move();
 		bool check();
+		void drawPaddle();
+		void drawSquare();
+		void drawTile(int x, int j);
 	};
 }
 

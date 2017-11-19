@@ -17,7 +17,6 @@
 ***********************************************************************/
 ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 	score      = 0;
-	pos        = (ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) / 2.0f;
 	tile       = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_X - 1, ARCADE_ARKANOID_TILE_Y - 1));
 	paddle     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_PADDLE - 1, ARCADE_ARKANOID_TILE_Y - 1));
 	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_Y - 1, ARCADE_ARKANOID_TILE_Y - 1));
@@ -66,6 +65,14 @@ ach::ArcadeArkanoid::~ArcadeArkanoid() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::initSelf() {
+	posX = (ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) / 2.0f;
+	glue = true;
+
+	for (int i = 0; i < ARCADE_ARKANOID_X; i++)
+		for (int j = 0; j < ARCADE_ARKANOID_Y; j++)
+			tiles[i][j] = true;
+
+	move();
 }
 
 
@@ -79,8 +86,15 @@ void ach::ArcadeArkanoid::updateSelf() {
 	tex->draw(*labelScore);
 	tex->draw(*border);
 
-	paddle->setPosition(pos + ARCADE_ARKANOID_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_ARKANOID_OFFSET_Y);
-	tex->draw(*paddle);
+	move();
+
+	for (int i = 0; i < ARCADE_ARKANOID_X; i++)
+		for (int j = 0; j < ARCADE_ARKANOID_Y; j++)
+			if (tiles[i][j])
+				drawTile(i, j);
+
+	drawPaddle();
+	drawSquare();
 }
 
 
@@ -91,11 +105,11 @@ void ach::ArcadeArkanoid::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::controlsSelf() {
-	if (ctrl->keys[ach::caLeft ].state) pos -= frameClock * ARCADE_ARKANOID_SPEED;
-	if (ctrl->keys[ach::caRight].state) pos += frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caLeft ].state) posX -= frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caRight].state) posX += frameClock * ARCADE_ARKANOID_SPEED;
 
-	if (pos < 0.0f                                           ) pos = 0.0f;
-	if (pos > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) pos = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE;
+	if (posX < 0.0f                                           ) posX = 0.0f;
+	if (posX > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) posX = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE;
 }
 
 
@@ -106,6 +120,12 @@ void ach::ArcadeArkanoid::controlsSelf() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::move() {
+	if (glue) {
+		pos.x = posX + (ARCADE_ARKANOID_PADDLE - ARCADE_ARKANOID_TILE_Y) / 2.0f;
+		pos.y = ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f;
+	} else {
+		pos += vel * frameClock;
+	}
 }
 
 
@@ -117,4 +137,40 @@ void ach::ArcadeArkanoid::move() {
 ***********************************************************************/
 bool ach::ArcadeArkanoid::check() {
 	return true;
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * drawPaddle
+
+***********************************************************************/
+void ach::ArcadeArkanoid::drawPaddle() {
+	paddle->setPosition(posX + ARCADE_ARKANOID_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_ARKANOID_OFFSET_Y);
+	tex->draw(*paddle);
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * drawSquare
+
+***********************************************************************/
+void ach::ArcadeArkanoid::drawSquare() {
+	square->setPosition(pos.x + ARCADE_ARKANOID_OFFSET_X, pos.y + ARCADE_ARKANOID_OFFSET_Y);
+	tex->draw(*square);
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * drawTile
+
+***********************************************************************/
+void ach::ArcadeArkanoid::drawTile(int x, int y) {
+	tile->setPosition(ARCADE_ARKANOID_OFFSET_X + ARCADE_ARKANOID_TILE_X * x, ARCADE_ARKANOID_OFFSET_Y + ARCADE_ARKANOID_TILE_Y * y);
+	tex->draw(*tile);
 }
