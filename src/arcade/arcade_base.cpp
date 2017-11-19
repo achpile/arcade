@@ -157,6 +157,7 @@ void ach::Arcade::quit() {
 ***********************************************************************/
 void ach::Arcade::reset() {
 	state = ach::asStart;
+	pulse.setPulse(1.0f);
 }
 
 
@@ -168,4 +169,5 @@ void ach::Arcade::reset() {
 ***********************************************************************/
 void ach::Arcade::gameover() {
 	state = ach::asGameOver;
+	pulse.setPulse(1.0f);
 }

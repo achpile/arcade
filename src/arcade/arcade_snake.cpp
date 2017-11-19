@@ -28,7 +28,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 
 	labelScore->setPosition(5, 5);
 
-	ticker.setTimer(0.2f);
+	ticker.setTimer(0.1f);
 }
 
 
@@ -52,6 +52,8 @@ ach::ArcadeSnake::~ArcadeSnake() {
 
 ***********************************************************************/
 void ach::ArcadeSnake::initSelf() {
+	pulse.setPulse(0.25f);
+
 	dir = sf::Vector2i(1, 0);
 
 	snake.clear();
@@ -79,10 +81,12 @@ void ach::ArcadeSnake::updateSelf() {
 		ticker.reset();
 	}
 
-	for (unsigned int i = 0; i < snake.size(); i++)
-		draw(snake[i], false);
+	draw(snake[0], sf::Color::Green);
 
-	if (pulse.status) draw(fruit, true);
+	for (unsigned int i = 1; i < snake.size(); i++)
+		draw(snake[i], sf::Color::White);
+
+	if (pulse.status) draw(fruit, sf::Color::Red);
 }
 
 
@@ -93,13 +97,14 @@ void ach::ArcadeSnake::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSnake::controlsSelf() {
-	if (dir.x == 0) {
-		if (ctrl->keys[ach::caLeft ].pressed) dir = sf::Vector2i(-1, 0);
-		if (ctrl->keys[ach::caRight].pressed) dir = sf::Vector2i( 1, 0);
-	} else {
-		if (ctrl->keys[ach::caUp   ].pressed) dir = sf::Vector2i(0, -1);
-		if (ctrl->keys[ach::caDown ].pressed) dir = sf::Vector2i(0,  1);
-	}
+	sf::Vector2i oldDir = dir;
+
+	if (ctrl->keys[ach::caLeft ].pressed) dir = sf::Vector2i(-1,  0);
+	if (ctrl->keys[ach::caRight].pressed) dir = sf::Vector2i( 1,  0);
+	if (ctrl->keys[ach::caUp   ].pressed) dir = sf::Vector2i( 0, -1);
+	if (ctrl->keys[ach::caDown ].pressed) dir = sf::Vector2i( 0,  1);
+
+	if (snake[0] + dir == snake[1]) dir = oldDir;
 }
 
 
@@ -136,16 +141,27 @@ void ach::ArcadeSnake::move() {
 
 ***********************************************************************/
 void ach::ArcadeSnake::genFruit() {
-	bool generated = false;
+	std::vector<int*> list;
 
-	do {
-		generated = true;
+	for (int i = 0; i < ARCADE_SNAKE_OFFSET_X * ARCADE_SNAKE_OFFSET_Y; i++)
+		field[i] = i;
 
-		fruit.x = rand() % ARCADE_SNAKE_X;
-		fruit.y = rand() % ARCADE_SNAKE_Y;
+	for (unsigned int i = 0; i > snake.size(); i++)
+		field[snake[i].y * ARCADE_SNAKE_OFFSET_X + snake[i].x] = -1;
 
-		//for (unsigned int i = 0; )
-	} while (!generated);
+	for (int i = 0; i < ARCADE_SNAKE_OFFSET_X * ARCADE_SNAKE_OFFSET_Y; i++)
+		if (field[i] != -1)
+			list.push_back(&(field[i]));
+
+	if (list.size() == 0) {
+		gameover();
+		return;
+	}
+
+	int result = *(list[rand() % list.size()]);
+
+	fruit.y = result / ARCADE_SNAKE_X;
+	fruit.x = result % ARCADE_SNAKE_X;
 }
 
 
@@ -186,12 +202,10 @@ bool ach::ArcadeSnake::check() {
      * draw
 
 ***********************************************************************/
-void ach::ArcadeSnake::draw(sf::Vector2i pos, bool red) {
+void ach::ArcadeSnake::draw(sf::Vector2i pos, sf::Color color) {
+	square->setFillColor(color);
 	square->setPosition(ARCADE_SNAKE_OFFSET_X + ARCADE_SNAKE_TILE * pos.x,
 	                    ARCADE_SNAKE_OFFSET_Y + ARCADE_SNAKE_TILE * pos.y);
-
-	if (red) square->setFillColor(sf::Color::Red);
-	else     square->setFillColor(sf::Color::White);
 
 	tex->draw(*square);
 }

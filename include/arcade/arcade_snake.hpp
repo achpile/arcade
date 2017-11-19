@@ -20,6 +20,7 @@ namespace ach {
 		sf::Vector2i        fruit;
 
 		unsigned int        score;
+		int                 field[ARCADE_SNAKE_X * ARCADE_SNAKE_Y];
 
 		std::vector<sf::Vector2i> snake;
 
@@ -35,7 +36,7 @@ namespace ach {
 		void move();
 		void genFruit();
 		bool check();
-		void draw(sf::Vector2i pos, bool red);
+		void draw(sf::Vector2i pos, sf::Color color);
 	};
 }
 
