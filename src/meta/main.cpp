@@ -55,13 +55,15 @@ int main() {
 
 	srand(time(NULL));
 
-	font   = new sf::Font();
+	font      = new sf::Font();
 	font->loadFromFile("data/fonts/FSEX300.ttf");
 
-	app    = new sf::RenderWindow();
-	Clock  = new sf::Clock;
-	ctrl   = new ach::ControlPad();
-	arcade = new ach::ArcadeSnake();
+	app       = new sf::RenderWindow();
+	Clock     = new sf::Clock;
+	ctrl      = new ach::ControlPad();
+	sman      = new ach::SoundManager();
+	arcade    = new ach::ArcadeSnake();
+	lastClock = Clock->getElapsedTime().asMilliseconds();
 
 	createWindow();
 
@@ -87,6 +89,7 @@ int main() {
 		app->clear();
 		ctrl->update();
 		arcade->update();
+		sman->update();
 		app->display();
 
 		if (!arcade->running) app->close();

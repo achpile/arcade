@@ -13,6 +13,7 @@
 namespace ach {
 	struct ArcadeSnake : Arcade {
 		ach::Timer          ticker;
+		sf::SoundBuffer    *pickup;
 		sf::RectangleShape *square;
 		sf::RectangleShape *border;
 		sf::Text           *labelScore;

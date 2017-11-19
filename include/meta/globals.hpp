@@ -9,10 +9,11 @@
 #ifndef __GLOBALS
 #define __GLOBALS
 
-ach::ControlPad  *ctrl;
-sf::RenderWindow *app;
-sf::Font         *font;
-sf::Clock        *Clock;
-float             frameClock;
+ach::ControlPad   *ctrl;
+ach::SoundManager *sman;
+sf::RenderWindow  *app;
+sf::Font          *font;
+sf::Clock         *Clock;
+float              frameClock;
 
 #endif

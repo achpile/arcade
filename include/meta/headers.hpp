@@ -30,6 +30,7 @@
 #include "misc/misc_timer.hpp"
 #include "misc/misc_pulsar.hpp"
 #include "misc/misc_sprite.hpp"
+#include "misc/misc_sound.hpp"
 
 #include "control/control_key.hpp"
 #include "control/control_pad.hpp"

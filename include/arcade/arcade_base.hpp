@@ -21,6 +21,8 @@ namespace ach {
 	struct Arcade {
 		ach::ArcadeState   state;
 		ach::Pulsar        pulse;
+		sf::SoundBuffer   *blip;
+		sf::SoundBuffer   *hit;
 		sf::RenderTexture *tex;
 		sf::Sprite        *spr;
 

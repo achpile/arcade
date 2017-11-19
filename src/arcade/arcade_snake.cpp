@@ -20,6 +20,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE - 1, ARCADE_SNAKE_TILE - 1));
 	border     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE * ARCADE_SNAKE_X + 1, ARCADE_SNAKE_TILE * ARCADE_SNAKE_Y + 1));
 	labelScore = new sf::Text("SCORE: 0", *font, 30);
+	pickup     = new sf::SoundBuffer();
 
 	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
 	border->setFillColor(sf::Color::Black);
@@ -27,6 +28,8 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 	border->setOutlineThickness(1);
 
 	labelScore->setPosition(5, 5);
+
+	pickup->loadFromFile("data/sfx/arcade/snake/pickup.wav");
 
 	ticker.setTimer(0.1f);
 }
@@ -41,6 +44,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 ach::ArcadeSnake::~ArcadeSnake() {
 	delete square;
 	delete border;
+	delete pickup;
 	delete labelScore;
 }
 
@@ -143,13 +147,13 @@ void ach::ArcadeSnake::move() {
 void ach::ArcadeSnake::genFruit() {
 	std::vector<int*> list;
 
-	for (int i = 0; i < ARCADE_SNAKE_OFFSET_X * ARCADE_SNAKE_OFFSET_Y; i++)
+	for (int i = 0; i < ARCADE_SNAKE_X * ARCADE_SNAKE_Y; i++)
 		field[i] = i;
 
-	for (unsigned int i = 0; i > snake.size(); i++)
+	for (unsigned int i = 0; i < snake.size(); i++)
 		field[snake[i].y * ARCADE_SNAKE_OFFSET_X + snake[i].x] = -1;
 
-	for (int i = 0; i < ARCADE_SNAKE_OFFSET_X * ARCADE_SNAKE_OFFSET_Y; i++)
+	for (int i = 0; i < ARCADE_SNAKE_X * ARCADE_SNAKE_Y; i++)
 		if (field[i] != -1)
 			list.push_back(&(field[i]));
 
@@ -186,7 +190,9 @@ bool ach::ArcadeSnake::check() {
 
 	if (next == fruit) {
 		snake.push_back(sf::Vector2i(0, 0));
+		sman->play(pickup);
 		genFruit();
+
 
 		score++;
 		labelScore->setString("SCORE: " + std::to_string(score));

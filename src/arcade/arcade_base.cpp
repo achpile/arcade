@@ -20,6 +20,8 @@ ach::Arcade::Arcade(std::string caption) {
 	running = true;
 	tex     = new sf::RenderTexture();
 	spr     = new sf::Sprite();
+	blip    = new sf::SoundBuffer();
+	hit     = new sf::SoundBuffer();
 
 	labelCaption  = new sf::Text(caption             , *font, 50);
 	labelStart    = new sf::Text("press start button", *font, 24);
@@ -31,6 +33,9 @@ ach::Arcade::Arcade(std::string caption) {
 	tex->setSmooth(false);
 
 	spr->setTexture(tex->getTexture());
+
+	blip->loadFromFile("data/sfx/arcade/blip.wav");
+	hit->loadFromFile("data/sfx/arcade/hit.wav");
 
 	labelCaption->setPosition ((int)((SCREEN_X - labelCaption->getGlobalBounds ().width) / 2),  50);
 	labelStart->setPosition   ((int)((SCREEN_X - labelStart->getGlobalBounds   ().width) / 2), 200);
@@ -49,6 +54,8 @@ ach::Arcade::Arcade(std::string caption) {
 ach::Arcade::~Arcade() {
 	delete spr;
 	delete tex;
+	delete blip;
+	delete hit;
 
 	delete labelCaption;
 	delete labelStart;
@@ -133,7 +140,7 @@ void ach::Arcade::controls() {
 ***********************************************************************/
 void ach::Arcade::init() {
 	state = ach::asGame;
-
+	sman->play(blip);
 	initSelf();
 }
 
@@ -157,6 +164,7 @@ void ach::Arcade::quit() {
 ***********************************************************************/
 void ach::Arcade::reset() {
 	state = ach::asStart;
+	sman->play(blip);
 	pulse.setPulse(1.0f);
 }
 
@@ -169,5 +177,6 @@ void ach::Arcade::reset() {
 ***********************************************************************/
 void ach::Arcade::gameover() {
 	state = ach::asGameOver;
+	sman->play(hit);
 	pulse.setPulse(1.0f);
 }

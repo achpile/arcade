@@ -9,10 +9,11 @@
 #ifndef __EXTERNS
 #define __EXTERNS
 
-extern ach::ControlPad  *ctrl;
-extern sf::RenderWindow *app;
-extern sf::Font         *font;
-extern sf::Clock        *Clock;
-extern float             frameClock;
+extern ach::ControlPad   *ctrl;
+extern ach::SoundManager *sman;
+extern sf::RenderWindow  *app;
+extern sf::Font          *font;
+extern sf::Clock         *Clock;
+extern float              frameClock;
 
 #endif
