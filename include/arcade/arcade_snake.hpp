@@ -29,6 +29,9 @@ namespace ach {
 		void controlsSelf();
 
 		void tick();
+		void move();
+		void genFruit();
+		bool check();
 		void draw(sf::Vector2i pos, bool red);
 	};
 }

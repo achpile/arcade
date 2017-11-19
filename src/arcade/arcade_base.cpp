@@ -34,7 +34,7 @@ ach::Arcade::Arcade(std::string caption) {
 
 	labelCaption->setPosition ((int)((SCREEN_X - labelCaption->getGlobalBounds ().width) / 2),  50);
 	labelStart->setPosition   ((int)((SCREEN_X - labelStart->getGlobalBounds   ().width) / 2), 200);
-	labelGameover->setPosition((int)((SCREEN_X - labelGameover->getGlobalBounds().width) / 2), 125);
+	labelGameover->setPosition((int)((SCREEN_X - labelGameover->getGlobalBounds().width) / 2),  80);
 
 	pulse.setPulse(1.0f);
 }
