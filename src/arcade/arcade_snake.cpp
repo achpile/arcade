@@ -151,7 +151,7 @@ void ach::ArcadeSnake::genFruit() {
 		field[i] = i;
 
 	for (unsigned int i = 0; i < snake.size(); i++)
-		field[snake[i].y * ARCADE_SNAKE_OFFSET_X + snake[i].x] = -1;
+		field[snake[i].y * ARCADE_SNAKE_X + snake[i].x] = -1;
 
 	for (int i = 0; i < ARCADE_SNAKE_X * ARCADE_SNAKE_Y; i++)
 		if (field[i] != -1)
@@ -164,8 +164,8 @@ void ach::ArcadeSnake::genFruit() {
 
 	int result = *(list[rand() % list.size()]);
 
-	fruit.y = result / ARCADE_SNAKE_X;
 	fruit.x = result % ARCADE_SNAKE_X;
+	fruit.y = result / ARCADE_SNAKE_X;
 }
 
 
