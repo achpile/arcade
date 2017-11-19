@@ -21,6 +21,7 @@ namespace ach {
 		sf::Text           *labelScore;
 
 		unsigned int        score;
+		float               pos;
 
 
 		 ArcadeArkanoid();

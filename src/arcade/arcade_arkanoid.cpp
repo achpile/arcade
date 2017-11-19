@@ -17,6 +17,7 @@
 ***********************************************************************/
 ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 	score      = 0;
+	pos        = (ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) / 2.0f;
 	tile       = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_X - 1, ARCADE_ARKANOID_TILE_Y - 1));
 	paddle     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_PADDLE - 1, ARCADE_ARKANOID_TILE_Y - 1));
 	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_Y - 1, ARCADE_ARKANOID_TILE_Y - 1));
@@ -77,6 +78,9 @@ void ach::ArcadeArkanoid::initSelf() {
 void ach::ArcadeArkanoid::updateSelf() {
 	tex->draw(*labelScore);
 	tex->draw(*border);
+
+	paddle->setPosition(pos + ARCADE_ARKANOID_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_ARKANOID_OFFSET_Y);
+	tex->draw(*paddle);
 }
 
 
@@ -87,8 +91,11 @@ void ach::ArcadeArkanoid::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::controlsSelf() {
-//	if (ctrl->keys[ach::caLeft ].pressed) dir = sf::Vector2i(-1,  0);
-//	if (ctrl->keys[ach::caRight].pressed) dir = sf::Vector2i( 1,  0);
+	if (ctrl->keys[ach::caLeft ].state) pos -= frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caRight].state) pos += frameClock * ARCADE_ARKANOID_SPEED;
+
+	if (pos < 0.0f                                           ) pos = 0.0f;
+	if (pos > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) pos = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE;
 }
 
 
