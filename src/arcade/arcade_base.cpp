@@ -16,8 +16,10 @@
 
 ***********************************************************************/
 ach::Arcade::Arcade() {
-	tex = new sf::RenderTexture();
-	spr = new sf::Sprite();
+	state   = ach::asStart;
+	running = true;
+	tex     = new sf::RenderTexture();
+	spr     = new sf::Sprite();
 
 	tex->create(SCREEN_X, SCREEN_Y, true);
 	tex->setRepeated(false);
@@ -49,6 +51,7 @@ ach::Arcade::~Arcade() {
 void ach::Arcade::update() {
 	tex->clear(sf::Color::Black);
 
+	controls();
 	render();
 }
 
@@ -61,4 +64,77 @@ void ach::Arcade::update() {
 ***********************************************************************/
 void ach::Arcade::render() {
 	app->draw(*spr);
+}
+
+
+
+/***********************************************************************
+     * Arcade
+     * controls
+
+***********************************************************************/
+void ach::Arcade::controls() {
+	switch (state) {
+		case ach::asStart:
+			if      (ctrl->keys[ach::caJump].pressed) init();
+			else if (ctrl->keys[ach::caMenu].pressed) quit();
+			break;
+
+		case ach::asGameOver:
+			if      (ctrl->keys[ach::caJump].pressed) reset();
+			else if (ctrl->keys[ach::caMenu].pressed) quit();
+			break;
+
+		case ach::asGame:
+			if   (ctrl->keys[ach::caMenu].pressed) reset();
+			else controlsSelf();
+			break;
+
+	}
+}
+
+
+
+/***********************************************************************
+     * Arcade
+     * init
+
+***********************************************************************/
+void ach::Arcade::init() {
+	state = ach::asGame;
+
+	initSelf();
+}
+
+
+
+/***********************************************************************
+     * Arcade
+     * quit
+
+***********************************************************************/
+void ach::Arcade::quit() {
+	running = false;
+}
+
+
+
+/***********************************************************************
+     * Arcade
+     * reset
+
+***********************************************************************/
+void ach::Arcade::reset() {
+	state = ach::asStart;
+}
+
+
+
+/***********************************************************************
+     * Arcade
+     * gameover
+
+***********************************************************************/
+void ach::Arcade::gameover() {
+	state = ach::asGameOver;
 }

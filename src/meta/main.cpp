@@ -85,6 +85,8 @@ int main() {
 		ctrl->update();
 		arcade->update();
 		app->display();
+
+		if (!arcade->running) app->close();
 	}
 
 	delete app;

@@ -11,16 +11,35 @@
 
 
 namespace ach {
+	enum ArcadeState {
+		asStart,
+		asGame,
+		asGameOver
+	};
+
+
 	struct Arcade {
+		ach::ArcadeState  state;
 		sf::RenderTexture *tex;
 		sf::Sprite        *spr;
 
+		bool               running;
 
-		 Arcade();
-		~Arcade();
+
+		         Arcade();
+		virtual ~Arcade();
 
 		void update();
 		void render();
+		void controls();
+		void init();
+		void quit();
+		void reset();
+		void gameover();
+
+		virtual void initSelf()     {};
+		virtual void updateSelf()   {};
+		virtual void controlsSelf() {};
 	};
 }
 
