@@ -105,8 +105,9 @@ void ach::ArcadeArkanoid::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::controlsSelf() {
-	if (ctrl->keys[ach::caLeft ].state) posX -= frameClock * ARCADE_ARKANOID_SPEED;
-	if (ctrl->keys[ach::caRight].state) posX += frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caLeft ].state  ) posX -= frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caRight].state  ) posX += frameClock * ARCADE_ARKANOID_SPEED;
+	if (ctrl->keys[ach::caJump ].pressed) shot();
 
 	if (posX < 0.0f                                           ) posX = 0.0f;
 	if (posX > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) posX = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE;
@@ -126,6 +127,24 @@ void ach::ArcadeArkanoid::move() {
 	} else {
 		pos += vel * frameClock;
 	}
+
+
+	if (!check()) gameover();
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * shot
+
+***********************************************************************/
+void ach::ArcadeArkanoid::shot() {
+	if (!glue) return;
+
+	glue  =  false;
+	vel.x =  ARCADE_ARKANOID_SPEED * cos(PI / 4);
+	vel.y = -ARCADE_ARKANOID_SPEED * sin(PI / 4);
 }
 
 
@@ -136,7 +155,36 @@ void ach::ArcadeArkanoid::move() {
 
 ***********************************************************************/
 bool ach::ArcadeArkanoid::check() {
+	if (pos.x < 0                                              ) vel.x = -vel.x;
+	if (pos.x > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_TILE_Y) vel.x = -vel.x;
+	if (pos.y < 0                                              ) vel.y = -vel.y;
+	if (pos.y > ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y) return false;
+
+	if (pos.y > ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f)
+		collide();
+
 	return true;
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * collide
+
+***********************************************************************/
+void ach::ArcadeArkanoid::collide() {
+	if (pos.x < posX - ARCADE_ARKANOID_TILE_Y ||
+	    pos.x > posX + ARCADE_ARKANOID_PADDLE) return;
+
+	float angle;
+	angle  = 4.0f * ((posX + ARCADE_ARKANOID_PADDLE) - pos.x);
+	angle /= (ARCADE_ARKANOID_PADDLE + ARCADE_ARKANOID_TILE_Y);
+	angle += 1.0f;
+	angle *= (PI / 6.0f);
+
+	vel.x =  ARCADE_ARKANOID_SPEED * cos(angle);
+	vel.y = -ARCADE_ARKANOID_SPEED * sin(angle);
 }
 
 

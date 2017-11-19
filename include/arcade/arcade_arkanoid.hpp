@@ -36,7 +36,9 @@ namespace ach {
 		void controlsSelf();
 
 		void move();
+		void shot();
 		bool check();
+		void collide();
 		void drawPaddle();
 		void drawSquare();
 		void drawTile(int x, int j);
