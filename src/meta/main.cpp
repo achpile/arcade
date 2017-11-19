@@ -48,15 +48,17 @@ static void createWindow() {
 
 ***********************************************************************/
 int main() {
-	sf::Event event;
-	long      lastClock;
-	long      currentClock;
+	ach::Arcade *arcade;
+	sf::Event    event;
+	long         lastClock;
+	long         currentClock;
 
 	srand(time(NULL));
 
-	app   = new sf::RenderWindow();
-	Clock = new sf::Clock;
-	ctrl  = new ach::ControlPad();
+	app    = new sf::RenderWindow();
+	Clock  = new sf::Clock;
+	ctrl   = new ach::ControlPad();
+	arcade = new ach::Arcade();
 
 	createWindow();
 
@@ -81,12 +83,14 @@ int main() {
 
 		app->clear();
 		ctrl->update();
+		arcade->update();
 		app->display();
 	}
 
 	delete app;
 	delete Clock;
 	delete ctrl;
+	delete arcade;
 
 	return EXIT_SUCCESS;
 }

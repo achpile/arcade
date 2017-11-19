@@ -33,6 +33,8 @@
 #include "control/control_key.hpp"
 #include "control/control_pad.hpp"
 
+#include "arcade/arcade_base.hpp"
+
 #include "externs.hpp"
 
 #endif
