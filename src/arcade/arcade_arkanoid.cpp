@@ -24,6 +24,7 @@ ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 	labelScore = new sf::Text("SCORE: 0", *font, 30);
 	hitWall    = new sf::SoundBuffer();
 	hitTile    = new sf::SoundBuffer();
+	clear      = new sf::SoundBuffer();
 
 	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
 	border->setFillColor(sf::Color::Black);
@@ -38,6 +39,7 @@ ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 
 	hitWall->loadFromFile("data/sfx/arcade/arkanoid/wall.wav");
 	hitTile->loadFromFile("data/sfx/arcade/arkanoid/tile.wav");
+	clear->loadFromFile("data/sfx/arcade/arkanoid/clear.wav");
 }
 
 
@@ -54,6 +56,7 @@ ach::ArcadeArkanoid::~ArcadeArkanoid() {
 	delete paddle;
 	delete hitWall;
 	delete hitTile;
+	delete clear;
 	delete labelScore;
 }
 
@@ -128,6 +131,8 @@ void ach::ArcadeArkanoid::move() {
 		if (lives == 0) gameover();
 		else            die();
 	}
+
+	finish();
 }
 
 
@@ -195,6 +200,23 @@ bool ach::ArcadeArkanoid::check() {
 	collideTiles();
 
 	return true;
+}
+
+
+
+/***********************************************************************
+     * ArcadeArkanoid
+     * finish
+
+***********************************************************************/
+void ach::ArcadeArkanoid::finish() {
+	for (int i = 0; i < ARCADE_ARKANOID_X; i++)
+		for (int j = 0; j < ARCADE_ARKANOID_Y; j++)
+			if (tiles[i][j])
+				return;
+
+	sman->play(clear);
+	create();
 }
 
 

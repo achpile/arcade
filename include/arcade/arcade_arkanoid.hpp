@@ -14,6 +14,7 @@ namespace ach {
 	struct ArcadeArkanoid : Arcade {
 		sf::SoundBuffer    *hitWall;
 		sf::SoundBuffer    *hitTile;
+		sf::SoundBuffer    *clear;
 		sf::RectangleShape *tile;
 		sf::RectangleShape *paddle;
 		sf::RectangleShape *square;
@@ -41,6 +42,7 @@ namespace ach {
 		void die();
 		void create();
 		bool check();
+		void finish();
 		void collidePaddle();
 		void collideTiles();
 		bool collideTile(sf::FloatRect rect);
