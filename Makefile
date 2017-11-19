@@ -10,7 +10,11 @@ NPROCS      = $(shell grep -c ^processor /proc/cpuinfo)
 TOTAL       = $(words $(OBJS))
 LEN         = $(shell echo -n ${TOTAL} | wc -c)
 
-GARBAGE     = $(OBJS) $(PROJECT)
+CMAKE       = CMakeFiles          \
+              CMakeCache.txt      \
+              cmake_install.cmake
+
+GARBAGE     = $(OBJS) $(PROJECT) $(CMAKE)
 
 CC          = @g++
 STRIP       = @strip
