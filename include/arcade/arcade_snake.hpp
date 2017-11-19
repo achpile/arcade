@@ -15,8 +15,11 @@ namespace ach {
 		ach::Timer          ticker;
 		sf::RectangleShape *square;
 		sf::RectangleShape *border;
+		sf::Text           *labelScore;
 		sf::Vector2i        dir;
 		sf::Vector2i        fruit;
+
+		unsigned int        score;
 
 		std::vector<sf::Vector2i> snake;
 

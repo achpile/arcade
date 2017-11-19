@@ -16,13 +16,17 @@
 
 ***********************************************************************/
 ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
-	square = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE - 1, ARCADE_SNAKE_TILE - 1));
-	border = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE * ARCADE_SNAKE_X + 1, ARCADE_SNAKE_TILE * ARCADE_SNAKE_Y + 1));
+	score      = 0;
+	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE - 1, ARCADE_SNAKE_TILE - 1));
+	border     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE * ARCADE_SNAKE_X + 1, ARCADE_SNAKE_TILE * ARCADE_SNAKE_Y + 1));
+	labelScore = new sf::Text("SCORE: 0", *font, 30);
 
 	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
 	border->setFillColor(sf::Color::Black);
 	border->setOutlineColor(sf::Color::White);
 	border->setOutlineThickness(1);
+
+	labelScore->setPosition(5, 5);
 
 	ticker.setTimer(0.2f);
 }
@@ -37,6 +41,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 ach::ArcadeSnake::~ArcadeSnake() {
 	delete square;
 	delete border;
+	delete labelScore;
 }
 
 
@@ -66,6 +71,7 @@ void ach::ArcadeSnake::initSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSnake::updateSelf() {
+	tex->draw(*labelScore);
 	tex->draw(*border);
 
 	if (!ticker.process()) {
@@ -165,6 +171,9 @@ bool ach::ArcadeSnake::check() {
 	if (next == fruit) {
 		snake.push_back(sf::Vector2i(0, 0));
 		genFruit();
+
+		score++;
+		labelScore->setString("SCORE: " + std::to_string(score));
 	}
 
 	return true;
