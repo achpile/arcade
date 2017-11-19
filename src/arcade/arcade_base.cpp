@@ -23,7 +23,7 @@ ach::Arcade::Arcade(std::string caption) {
 	blip    = new sf::SoundBuffer();
 	hit     = new sf::SoundBuffer();
 
-	labelCaption  = new sf::Text(caption             , *font, 50);
+	labelCaption  = new sf::Text(caption             , *font, 48);
 	labelStart    = new sf::Text("press start button", *font, 24);
 	labelGameover = new sf::Text("GAME OVER"         , *font, 50);
 

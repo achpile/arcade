@@ -15,6 +15,10 @@ namespace ach {
 		ach::Timer          ticker;
 		sf::RectangleShape *square;
 		sf::RectangleShape *border;
+		sf::ConvexShape    *shapeUp;
+		sf::ConvexShape    *shapeDown;
+		sf::ConvexShape    *shapeLeft;
+		sf::ConvexShape    *shapeRight;
 		sf::Text           *labelScore;
 		sf::Vector2i        dir;
 		sf::Vector2i        fruit;
@@ -33,10 +37,7 @@ namespace ach {
 		void controlsSelf();
 
 		void tick();
-		void move();
-		void genFruit();
-		bool check();
-		void draw(sf::Vector2i pos, sf::Color color);
+		void draw(sf::ConvexShape *shape, sf::Color c, int value);
 	};
 }
 

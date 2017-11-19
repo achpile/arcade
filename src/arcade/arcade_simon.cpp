@@ -27,6 +27,36 @@ ach::ArcadeSimon::ArcadeSimon() : Arcade("SIMON SAYS") {
 
 	labelScore->setPosition(5, 5);
 
+	shapeUp    = new sf::ConvexShape(4);
+	shapeDown  = new sf::ConvexShape(4);
+	shapeLeft  = new sf::ConvexShape(4);
+	shapeRight = new sf::ConvexShape(4);
+
+	shapeUp->setPoint(0, sf::Vector2f( 45,  10) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeUp->setPoint(1, sf::Vector2f(205,  10) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeUp->setPoint(2, sf::Vector2f(165,  50) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeUp->setPoint(3, sf::Vector2f( 85,  50) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+
+	shapeDown->setPoint(0, sf::Vector2f( 45, 190) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeDown->setPoint(1, sf::Vector2f(205, 190) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeDown->setPoint(2, sf::Vector2f(165, 150) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeDown->setPoint(3, sf::Vector2f( 85, 150) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+
+	shapeLeft->setPoint(0, sf::Vector2f( 35,  20) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeLeft->setPoint(1, sf::Vector2f( 75,  60) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeLeft->setPoint(2, sf::Vector2f( 75, 140) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeLeft->setPoint(3, sf::Vector2f( 35, 180) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+
+	shapeRight->setPoint(0, sf::Vector2f(215,  20) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeRight->setPoint(1, sf::Vector2f(175,  60) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeRight->setPoint(2, sf::Vector2f(175, 140) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+	shapeRight->setPoint(3, sf::Vector2f(215, 180) + sf::Vector2f(ARCADE_SIMON_OFFSET_X, ARCADE_SIMON_OFFSET_Y));
+
+	shapeUp->setOutlineColor(sf::Color::White);
+	shapeDown->setOutlineColor(sf::Color::White);
+	shapeLeft->setOutlineColor(sf::Color::White);
+	shapeRight->setOutlineColor(sf::Color::White);
+
 	ticker.setTimer(0.1f);
 }
 
@@ -40,6 +70,11 @@ ach::ArcadeSimon::ArcadeSimon() : Arcade("SIMON SAYS") {
 ach::ArcadeSimon::~ArcadeSimon() {
 	delete border;
 	delete labelScore;
+
+	delete shapeUp;
+	delete shapeDown;
+	delete shapeLeft;
+	delete shapeRight;
 }
 
 
@@ -62,6 +97,11 @@ void ach::ArcadeSimon::initSelf() {
 void ach::ArcadeSimon::updateSelf() {
 	tex->draw(*labelScore);
 	tex->draw(*border);
+
+	draw(shapeUp   , sf::Color(0, 1, 0), 100);
+	draw(shapeDown , sf::Color(0, 0, 1), 100);
+	draw(shapeLeft , sf::Color(1, 1, 0), 100);
+	draw(shapeRight, sf::Color(1, 0, 0), 100);
 
 	if (!ticker.process()) {
 		tick();
@@ -91,4 +131,20 @@ void ach::ArcadeSimon::controlsSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::tick() {
+}
+
+
+
+/***********************************************************************
+     * ArcadeSimon
+     * draw
+
+***********************************************************************/
+void ach::ArcadeSimon::draw(sf::ConvexShape *shape, sf::Color c, int value) {
+	shape->setFillColor(sf::Color(c.r * value, c.g * value, c.b * value));
+
+	if (value == 255) shape->setOutlineThickness(1.0f);
+	else              shape->setOutlineThickness(0.0f);
+
+	tex->draw(*shape);
 }
