@@ -11,6 +11,7 @@
 
 ach::ControlPad  *ctrl;
 sf::RenderWindow *app;
+sf::Font         *font;
 sf::Clock        *Clock;
 float             frameClock;
 

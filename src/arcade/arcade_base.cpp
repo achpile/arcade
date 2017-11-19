@@ -15,11 +15,15 @@
      * constructor
 
 ***********************************************************************/
-ach::Arcade::Arcade() {
+ach::Arcade::Arcade(std::string caption) {
 	state   = ach::asStart;
 	running = true;
 	tex     = new sf::RenderTexture();
 	spr     = new sf::Sprite();
+
+	labelCaption  = new sf::Text(caption             , *font, 50);
+	labelStart    = new sf::Text("press start button", *font, 24);
+	labelGameover = new sf::Text("GAME OVER"         , *font, 50);
 
 	tex->create(SCREEN_X, SCREEN_Y, true);
 	tex->setRepeated(false);
@@ -27,6 +31,10 @@ ach::Arcade::Arcade() {
 	tex->setSmooth(false);
 
 	spr->setTexture(tex->getTexture());
+
+	labelCaption->setPosition ((int)((SCREEN_X - labelCaption->getGlobalBounds ().width) / 2),  50);
+	labelStart->setPosition   ((int)((SCREEN_X - labelStart->getGlobalBounds   ().width) / 2), 200);
+	labelGameover->setPosition((int)((SCREEN_X - labelGameover->getGlobalBounds().width) / 2), 125);
 
 	pulse.setPulse(1.0f);
 }
@@ -41,6 +49,10 @@ ach::Arcade::Arcade() {
 ach::Arcade::~Arcade() {
 	delete spr;
 	delete tex;
+
+	delete labelCaption;
+	delete labelStart;
+	delete labelGameover;
 }
 
 
@@ -55,6 +67,22 @@ void ach::Arcade::update() {
 	pulse.process();
 
 	controls();
+
+	switch (state) {
+		case ach::asStart:
+			tex->draw(*labelCaption);
+			if (pulse.status) tex->draw(*labelStart);
+			break;
+
+		case ach::asGameOver:
+			if (pulse.status) tex->draw(*labelGameover);
+			break;
+
+		case ach::asGame:
+			updateSelf();
+			break;
+	}
+
 	render();
 }
 
@@ -66,6 +94,7 @@ void ach::Arcade::update() {
 
 ***********************************************************************/
 void ach::Arcade::render() {
+	tex->display();
 	app->draw(*spr);
 }
 
@@ -92,7 +121,6 @@ void ach::Arcade::controls() {
 			if   (ctrl->keys[ach::caMenu].pressed) reset();
 			else controlsSelf();
 			break;
-
 	}
 }
 

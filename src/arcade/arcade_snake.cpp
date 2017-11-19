@@ -15,7 +15,7 @@
      * constructor
 
 ***********************************************************************/
-ach::ArcadeSnake::ArcadeSnake() : Arcade() {
+ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 }
 
 

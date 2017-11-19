@@ -55,10 +55,13 @@ int main() {
 
 	srand(time(NULL));
 
+	font   = new sf::Font();
+	font->loadFromFile("data/fonts/FSEX300.ttf");
+
 	app    = new sf::RenderWindow();
 	Clock  = new sf::Clock;
 	ctrl   = new ach::ControlPad();
-	arcade = new ach::Arcade();
+	arcade = new ach::ArcadeSnake();
 
 	createWindow();
 
@@ -93,6 +96,7 @@ int main() {
 	delete Clock;
 	delete ctrl;
 	delete arcade;
+	delete font;
 
 	return EXIT_SUCCESS;
 }

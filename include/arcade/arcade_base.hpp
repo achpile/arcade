@@ -24,10 +24,14 @@ namespace ach {
 		sf::RenderTexture *tex;
 		sf::Sprite        *spr;
 
+		sf::Text          *labelCaption;
+		sf::Text          *labelStart;
+		sf::Text          *labelGameover;
+
 		bool               running;
 
 
-		         Arcade();
+		         Arcade(std::string caption);
 		virtual ~Arcade();
 
 		void update();
