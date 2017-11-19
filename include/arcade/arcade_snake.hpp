@@ -12,8 +12,24 @@
 
 namespace ach {
 	struct ArcadeSnake : Arcade {
+		ach::Timer          ticker;
+		sf::RectangleShape *square;
+		sf::RectangleShape *border;
+		sf::Vector2i        dir;
+		sf::Vector2i        fruit;
+
+		std::vector<sf::Vector2i> snake;
+
+
 		 ArcadeSnake();
 		~ArcadeSnake();
+
+		void initSelf();
+		void updateSelf();
+		void controlsSelf();
+
+		void tick();
+		void draw(sf::Vector2i pos, bool red);
 	};
 }
 
