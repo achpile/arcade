@@ -47,6 +47,16 @@
 #define ARCADE_SNAKE_OFFSET_X    3
 #define ARCADE_SNAKE_OFFSET_Y    53
 
+#define ARCADE_ARKANOID_TILE_X   25
+#define ARCADE_ARKANOID_TILE_Y   10
+#define ARCADE_ARKANOID_X        10
+#define ARCADE_ARKANOID_Y        10
+#define ARCADE_ARKANOID_PADDLE   50
+#define ARCADE_ARKANOID_SIZE_X   250
+#define ARCADE_ARKANOID_SIZE_Y   200
+#define ARCADE_ARKANOID_OFFSET_X 3
+#define ARCADE_ARKANOID_OFFSET_Y 53
+
 
 
 /***********************************************************************

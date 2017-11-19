@@ -37,6 +37,7 @@
 
 #include "arcade/arcade_base.hpp"
 #include "arcade/arcade_snake.hpp"
+#include "arcade/arcade_arkanoid.hpp"
 
 #include "externs.hpp"
 
