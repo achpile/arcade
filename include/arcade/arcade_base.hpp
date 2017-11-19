@@ -19,7 +19,8 @@ namespace ach {
 
 
 	struct Arcade {
-		ach::ArcadeState  state;
+		ach::ArcadeState   state;
+		ach::Pulsar        pulse;
 		sf::RenderTexture *tex;
 		sf::Sprite        *spr;
 

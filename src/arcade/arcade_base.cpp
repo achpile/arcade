@@ -27,6 +27,8 @@ ach::Arcade::Arcade() {
 	tex->setSmooth(false);
 
 	spr->setTexture(tex->getTexture());
+
+	pulse.setPulse(1.0f);
 }
 
 
@@ -50,6 +52,7 @@ ach::Arcade::~Arcade() {
 ***********************************************************************/
 void ach::Arcade::update() {
 	tex->clear(sf::Color::Black);
+	pulse.process();
 
 	controls();
 	render();

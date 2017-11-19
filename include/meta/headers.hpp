@@ -28,12 +28,14 @@
 #include "defines.hpp"
 
 #include "misc/misc_timer.hpp"
+#include "misc/misc_pulsar.hpp"
 #include "misc/misc_sprite.hpp"
 
 #include "control/control_key.hpp"
 #include "control/control_pad.hpp"
 
 #include "arcade/arcade_base.hpp"
+#include "arcade/arcade_snake.hpp"
 
 #include "externs.hpp"
 
