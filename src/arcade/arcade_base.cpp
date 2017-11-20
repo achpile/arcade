@@ -70,7 +70,7 @@ ach::Arcade::~Arcade() {
 
 ***********************************************************************/
 void ach::Arcade::update() {
-	tex->clear(sf::Color::Black);
+	tex->clear(sf::Color::Transparent);
 	pulse.process();
 
 	controls();

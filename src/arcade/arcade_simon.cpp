@@ -21,7 +21,7 @@ ach::ArcadeSimon::ArcadeSimon() : Arcade("SIMON SAYS") {
 	labelScore = new sf::Text("SCORE: 0", *font, 30);
 
 	border->setPosition(ARCADE_SIMON_OFFSET_X - 1, ARCADE_SIMON_OFFSET_Y - 1);
-	border->setFillColor(sf::Color::Black);
+	border->setFillColor(sf::Color::Transparent);
 	border->setOutlineColor(sf::Color::White);
 	border->setOutlineThickness(1);
 

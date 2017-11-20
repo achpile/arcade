@@ -23,7 +23,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 	pickup     = new sf::SoundBuffer();
 
 	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
-	border->setFillColor(sf::Color::Black);
+	border->setFillColor(sf::Color::Transparent);
 	border->setOutlineColor(sf::Color::White);
 	border->setOutlineThickness(1);
 

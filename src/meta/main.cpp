@@ -86,7 +86,7 @@ int main() {
 			}
 		}
 
-		app->clear();
+		app->clear(sf::Color::Black);
 		ctrl->update();
 		arcade->update();
 		sman->update();
