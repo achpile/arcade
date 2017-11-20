@@ -57,7 +57,19 @@ ach::ArcadeSimon::ArcadeSimon() : Arcade("SIMON SAYS") {
 	shapeLeft->setOutlineColor(sf::Color::White);
 	shapeRight->setOutlineColor(sf::Color::White);
 
-	ticker.setTimer(0.1f);
+	bufUp    = new sf::SoundBuffer();
+	bufDown  = new sf::SoundBuffer();
+	bufLeft  = new sf::SoundBuffer();
+	bufRight = new sf::SoundBuffer();
+	bufCorr  = new sf::SoundBuffer();
+
+	bufUp->loadFromFile("data/sfx/arcade/simon/up.wav");
+	bufDown->loadFromFile("data/sfx/arcade/simon/down.wav");
+	bufLeft->loadFromFile("data/sfx/arcade/simon/left.wav");
+	bufRight->loadFromFile("data/sfx/arcade/simon/right.wav");
+	bufCorr->loadFromFile("data/sfx/arcade/simon/correct.wav");
+
+	ticker.setTimer(0.33f);
 }
 
 
@@ -75,6 +87,12 @@ ach::ArcadeSimon::~ArcadeSimon() {
 	delete shapeDown;
 	delete shapeLeft;
 	delete shapeRight;
+
+	delete bufUp;
+	delete bufDown;
+	delete bufLeft;
+	delete bufRight;
+	delete bufCorr;
 }
 
 
@@ -85,6 +103,7 @@ ach::ArcadeSimon::~ArcadeSimon() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::initSelf() {
+	create();
 }
 
 
@@ -98,15 +117,13 @@ void ach::ArcadeSimon::updateSelf() {
 	tex->draw(*labelScore);
 	tex->draw(*border);
 
-	draw(shapeUp   , sf::Color(0, 1, 0), 100);
-	draw(shapeDown , sf::Color(0, 0, 1), 100);
-	draw(shapeLeft , sf::Color(1, 1, 0), 100);
-	draw(shapeRight, sf::Color(1, 0, 0), 100);
+	draw(shapeUp   , sf::Color(0, 1, 0), buttons[0] ? 255 : 100);
+	draw(shapeDown , sf::Color(0, 0, 1), buttons[1] ? 255 : 100);
+	draw(shapeLeft , sf::Color(1, 1, 0), buttons[2] ? 255 : 100);
+	draw(shapeRight, sf::Color(1, 0, 0), buttons[3] ? 255 : 100);
 
-	if (!ticker.process()) {
-		tick();
-		ticker.reset();
-	}
+	if (!ticker.process())
+		reset();
 }
 
 
@@ -117,10 +134,60 @@ void ach::ArcadeSimon::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::controlsSelf() {
-	//if (ctrl->keys[ach::caLeft ].pressed) dir = sf::Vector2i(-1,  0);
-	//if (ctrl->keys[ach::caRight].pressed) dir = sf::Vector2i( 1,  0);
-	//if (ctrl->keys[ach::caUp   ].pressed) dir = sf::Vector2i( 0, -1);
-	//if (ctrl->keys[ach::caDown ].pressed) dir = sf::Vector2i( 0,  1);
+	if (ticker.isActive()) return;
+
+	if (ctrl->keys[ach::caUp   ].pressed) press(0);
+	if (ctrl->keys[ach::caDown ].pressed) press(1);
+	if (ctrl->keys[ach::caLeft ].pressed) press(2);
+	if (ctrl->keys[ach::caRight].pressed) press(3);
+}
+
+
+
+/***********************************************************************
+     * ArcadeSimon
+     * create
+
+***********************************************************************/
+void ach::ArcadeSimon::create() {
+	for (int i = 0; i < ARCADE_SIMON_SIZE; i++)
+		seq[i] = rand() % 4;
+
+	reset();
+}
+
+
+
+/***********************************************************************
+     * ArcadeSimon
+     * reset
+
+***********************************************************************/
+void ach::ArcadeSimon::reset() {
+	buttons[0] = false;
+	buttons[1] = false;
+	buttons[2] = false;
+	buttons[3] = false;
+}
+
+
+
+/***********************************************************************
+     * ArcadeSimon
+     * press
+
+***********************************************************************/
+void ach::ArcadeSimon::press(int dir) {
+	buttons[dir] = true;
+
+	switch (dir) {
+		case 0: sman->play(bufUp   ); break;
+		case 1: sman->play(bufDown ); break;
+		case 2: sman->play(bufLeft ); break;
+		case 3: sman->play(bufRight); break;
+	}
+
+	ticker.setTimer(0.33f);
 }
 
 

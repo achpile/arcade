@@ -20,13 +20,15 @@ namespace ach {
 		sf::ConvexShape    *shapeLeft;
 		sf::ConvexShape    *shapeRight;
 		sf::Text           *labelScore;
-		sf::Vector2i        dir;
-		sf::Vector2i        fruit;
+		sf::SoundBuffer    *bufUp;
+		sf::SoundBuffer    *bufDown;
+		sf::SoundBuffer    *bufLeft;
+		sf::SoundBuffer    *bufRight;
+		sf::SoundBuffer    *bufCorr;
 
 		unsigned int        score;
-		int                 field[ARCADE_SNAKE_X * ARCADE_SNAKE_Y];
-
-		std::vector<sf::Vector2i> snake;
+		int                 seq[ARCADE_SIMON_SIZE];
+		bool                buttons[4];
 
 
 		 ArcadeSimon();
@@ -36,6 +38,9 @@ namespace ach {
 		void updateSelf();
 		void controlsSelf();
 
+		void create();
+		void reset();
+		void press(int dir);
 		void tick();
 		void draw(sf::ConvexShape *shape, sf::Color c, int value);
 	};

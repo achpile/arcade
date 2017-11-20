@@ -62,6 +62,7 @@
 #define ARCADE_SIMON_SIZE_Y      200
 #define ARCADE_SIMON_OFFSET_X    3
 #define ARCADE_SIMON_OFFSET_Y    53
+#define ARCADE_SIMON_SIZE        15
 
 
 
