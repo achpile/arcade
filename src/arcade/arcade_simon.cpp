@@ -122,11 +122,8 @@ void ach::ArcadeSimon::updateSelf() {
 	draw(shapeLeft , sf::Color(1, 1, 0), buttons[2] ? 255 : 100);
 	draw(shapeRight, sf::Color(1, 0, 0), buttons[3] ? 255 : 100);
 
-	if (!ticker.process()) {
-		reset();
-
-		if (demo) press(seq[pos]);
-	}
+	if (!ticker.process())
+		tick();
 }
 
 
@@ -137,8 +134,7 @@ void ach::ArcadeSimon::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::controlsSelf() {
-	if (ticker.isActive()) return;
-	if (demo             ) return;
+	if (state != ach::assInput) return;
 
 	if (ctrl->keys[ach::caUp   ].pressed) press(0);
 	if (ctrl->keys[ach::caDown ].pressed) press(1);
@@ -157,9 +153,9 @@ void ach::ArcadeSimon::create() {
 	for (int i = 0; i < ARCADE_SIMON_SIZE; i++)
 		seq[i] = rand() % 4;
 
-	pos  = 0;
-	len  = 1;
-	demo = true;
+	pos   = 0;
+	len   = 1;
+	state = ach::assDemo;
 
 	reset();
 }
@@ -186,6 +182,12 @@ void ach::ArcadeSimon::reset() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::press(int dir) {
+	if (dir != seq[pos]) {
+		gameover();
+		return;
+	}
+
+	reset();
 	buttons[dir] = true;
 
 	switch (dir) {
@@ -199,18 +201,30 @@ void ach::ArcadeSimon::press(int dir) {
 
 	pos++;
 
-	if (pos == len) {
-		pos = 0;
+	switch (state) {
+		case ach::assDemo:
+			if (pos == len) {
+				pos   = 0;
+				state = ach::assInput;
+			}
 
-		if (demo) {
-			demo = false;
-		} else {
-			demo = true;
-			len++;
+			break;
 
-			if (len == ARCADE_SIMON_SIZE)
-				create();
-		}
+
+		case ach::assInput:
+			score++;
+			labelScore->setString("SCORE: " + std::to_string(score));
+
+			if (pos == len) {
+				pos   = 0;
+				state = ach::assCorrect;
+			}
+
+			break;
+
+
+		default:
+			break;
 	}
 }
 
@@ -222,6 +236,49 @@ void ach::ArcadeSimon::press(int dir) {
 
 ***********************************************************************/
 void ach::ArcadeSimon::tick() {
+	switch (state) {
+		case ach::assDemo:
+			state = ach::assPause;
+			ticker.setTimer(0.1f);
+			reset();
+			break;
+
+
+		case ach::assPause:
+			state = ach::assDemo;
+			press(seq[pos]);
+			break;
+
+
+		case ach::assInput:
+			reset();
+			break;
+
+
+		case ach::assCorrect:
+			pos   = 0;
+			state = ach::assPause;
+
+			len++;
+			ticker.setTimer(0.66f);
+			reset();
+
+			if (len > ARCADE_SIMON_SIZE) {
+				buttons[0] = true;
+				buttons[1] = true;
+				buttons[2] = true;
+				buttons[3] = true;
+				state      = ach::assCreate;
+
+				sman->play(bufCorr);
+			}
+			break;
+
+
+		case ach::assCreate:
+			create();
+			break;
+	}
 }
 
 

@@ -11,27 +11,36 @@
 
 
 namespace ach {
-	struct ArcadeSimon : Arcade {
-		ach::Timer          ticker;
-		sf::RectangleShape *square;
-		sf::RectangleShape *border;
-		sf::ConvexShape    *shapeUp;
-		sf::ConvexShape    *shapeDown;
-		sf::ConvexShape    *shapeLeft;
-		sf::ConvexShape    *shapeRight;
-		sf::Text           *labelScore;
-		sf::SoundBuffer    *bufUp;
-		sf::SoundBuffer    *bufDown;
-		sf::SoundBuffer    *bufLeft;
-		sf::SoundBuffer    *bufRight;
-		sf::SoundBuffer    *bufCorr;
+	enum ArcadeSimonState {
+		assDemo,
+		assPause,
+		assInput,
+		assCorrect,
+		assCreate
+	};
 
-		unsigned int        score;
-		int                 seq[ARCADE_SIMON_SIZE];
-		bool                buttons[4];
-		bool                demo;
-		int                 len;
-		int                 pos;
+
+	struct ArcadeSimon : Arcade {
+		ach::ArcadeSimonState  state;
+		ach::Timer             ticker;
+		sf::RectangleShape    *square;
+		sf::RectangleShape    *border;
+		sf::ConvexShape       *shapeUp;
+		sf::ConvexShape       *shapeDown;
+		sf::ConvexShape       *shapeLeft;
+		sf::ConvexShape       *shapeRight;
+		sf::Text              *labelScore;
+		sf::SoundBuffer       *bufUp;
+		sf::SoundBuffer       *bufDown;
+		sf::SoundBuffer       *bufLeft;
+		sf::SoundBuffer       *bufRight;
+		sf::SoundBuffer       *bufCorr;
+
+		unsigned int           score;
+		int                    seq[ARCADE_SIMON_SIZE];
+		bool                   buttons[4];
+		int                    len;
+		int                    pos;
 
 
 		 ArcadeSimon();
