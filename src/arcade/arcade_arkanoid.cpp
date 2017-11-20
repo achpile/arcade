@@ -68,7 +68,10 @@ ach::ArcadeArkanoid::~ArcadeArkanoid() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::initSelf() {
+	score = 0;
 	lives = 3;
+
+	labelScore->setString("SCORE: " + std::to_string(score));
 
 	create();
 }

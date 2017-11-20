@@ -58,7 +58,10 @@ ach::ArcadeSnake::~ArcadeSnake() {
 void ach::ArcadeSnake::initSelf() {
 	pulse.setPulse(0.25f);
 
-	dir = sf::Vector2i(1, 0);
+	score = 0;
+	dir   = sf::Vector2i(1, 0);
+
+	labelScore->setString("SCORE: " + std::to_string(score));
 
 	snake.clear();
 	snake.push_back(sf::Vector2i(3, ARCADE_SNAKE_Y / 2));

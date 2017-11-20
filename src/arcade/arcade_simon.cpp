@@ -103,6 +103,9 @@ ach::ArcadeSimon::~ArcadeSimon() {
 
 ***********************************************************************/
 void ach::ArcadeSimon::initSelf() {
+	score = 0;
+
+	labelScore->setString("SCORE: " + std::to_string(score));
 	create();
 }
 
