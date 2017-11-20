@@ -27,6 +27,7 @@ ach::SoundManager::SoundManager() {
 ***********************************************************************/
 ach::SoundManager::~SoundManager() {
 	deleteList(sounds);
+	deleteList(bufs);
 }
 
 

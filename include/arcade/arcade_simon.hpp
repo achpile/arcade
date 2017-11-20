@@ -29,6 +29,9 @@ namespace ach {
 		unsigned int        score;
 		int                 seq[ARCADE_SIMON_SIZE];
 		bool                buttons[4];
+		bool                demo;
+		int                 len;
+		int                 pos;
 
 
 		 ArcadeSimon();

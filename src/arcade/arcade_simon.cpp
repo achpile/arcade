@@ -122,8 +122,11 @@ void ach::ArcadeSimon::updateSelf() {
 	draw(shapeLeft , sf::Color(1, 1, 0), buttons[2] ? 255 : 100);
 	draw(shapeRight, sf::Color(1, 0, 0), buttons[3] ? 255 : 100);
 
-	if (!ticker.process())
+	if (!ticker.process()) {
 		reset();
+
+		if (demo) press(seq[pos]);
+	}
 }
 
 
@@ -135,6 +138,7 @@ void ach::ArcadeSimon::updateSelf() {
 ***********************************************************************/
 void ach::ArcadeSimon::controlsSelf() {
 	if (ticker.isActive()) return;
+	if (demo             ) return;
 
 	if (ctrl->keys[ach::caUp   ].pressed) press(0);
 	if (ctrl->keys[ach::caDown ].pressed) press(1);
@@ -152,6 +156,10 @@ void ach::ArcadeSimon::controlsSelf() {
 void ach::ArcadeSimon::create() {
 	for (int i = 0; i < ARCADE_SIMON_SIZE; i++)
 		seq[i] = rand() % 4;
+
+	pos  = 0;
+	len  = 1;
+	demo = true;
 
 	reset();
 }
@@ -188,6 +196,22 @@ void ach::ArcadeSimon::press(int dir) {
 	}
 
 	ticker.setTimer(0.33f);
+
+	pos++;
+
+	if (pos == len) {
+		pos = 0;
+
+		if (demo) {
+			demo = false;
+		} else {
+			demo = true;
+			len++;
+
+			if (len == ARCADE_SIMON_SIZE)
+				create();
+		}
+	}
 }
 
 
