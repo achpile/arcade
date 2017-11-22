@@ -14,6 +14,7 @@ namespace ach {
 	struct ArcadeHexagon : Arcade {
 		ach::Timer          ticker;
 		sf::CircleShape    *center;
+		sf::ConvexShape    *shape;
 		sf::RenderTexture  *scrTex;
 		sf::Sprite         *scrSpr;
 		sf::Vertex          line[2];
@@ -30,8 +31,9 @@ namespace ach {
 
 		void tick();
 		void drawLine(int i);
+		void drawShape(int i, float dist);
 
-		sf::Vector2f getPos(float angle, float radius);
+		sf::Vector2f getPos(int i, float radius);
 	};
 }
 

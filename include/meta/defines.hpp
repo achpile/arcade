@@ -64,7 +64,8 @@
 #define ARCADE_TETRIS_X          10
 #define ARCADE_TETRIS_Y          20
 
-#define ARCADE_HEXAGON_RADIUS    20
+#define ARCADE_HEXAGON_RADIUS    20.0f
+#define ARCADE_HEXAGON_THICKNESS 10.0f
 
 
 
