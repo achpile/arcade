@@ -16,6 +16,9 @@ namespace ach {
 		sf::CircleShape    *center;
 		sf::RenderTexture  *scrTex;
 		sf::Sprite         *scrSpr;
+		sf::Vertex          line[2];
+
+		float               rot;
 
 
 		 ArcadeHexagon();
@@ -26,6 +29,9 @@ namespace ach {
 		void controlsSelf();
 
 		void tick();
+		void drawLine(int i);
+
+		sf::Vector2f getPos(float angle, float radius);
 	};
 }
 

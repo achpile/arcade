@@ -57,6 +57,7 @@ ach::ArcadeHexagon::~ArcadeHexagon() {
 
 ***********************************************************************/
 void ach::ArcadeHexagon::initSelf() {
+	rot = 0.0f;
 }
 
 
@@ -72,9 +73,14 @@ void ach::ArcadeHexagon::updateSelf() {
 		ticker.reset();
 	}
 
+	center->setRotation(rot * RAD_TO_DEG);
+
 	scrTex->clear(sf::Color::Transparent);
 
 	scrTex->draw(*center);
+
+	for (int i = 0; i < 6; i++)
+		drawLine(i);
 
 	scrTex->display();
 	tex->draw(*scrSpr);
@@ -99,4 +105,32 @@ void ach::ArcadeHexagon::controlsSelf() {
 ***********************************************************************/
 void ach::ArcadeHexagon::tick() {
 	scoreInc();
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * drawLine
+
+***********************************************************************/
+void ach::ArcadeHexagon::drawLine(int i) {
+	line[0].color = sf::Color(100, 100, 100);
+	line[1].color = sf::Color(100, 100, 100);
+
+	line[0].position = getPos(2.0f * PI * ((float)i + 0.5f) / 6.0f, ARCADE_HEXAGON_RADIUS);
+	line[1].position = getPos(2.0f * PI * ((float)i + 0.5f) / 6.0f, ARCADE_BORDER_SIZE_Y );
+
+	scrTex->draw(line, 2, sf::Lines);
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * getPos
+
+***********************************************************************/
+sf::Vector2f ach::ArcadeHexagon::getPos(float angle, float radius) {
+	return sf::Vector2f(cos(angle + rot), sin(angle + rot)) * radius + sf::Vector2f(ARCADE_BORDER_SIZE_X / 2, ARCADE_BORDER_SIZE_Y / 2);
 }
