@@ -92,7 +92,7 @@ void ach::ArcadeArkanoid::controlsSelf() {
 	if (ctrl->keys[ach::caJump ].pressed) shot();
 
 	if (posX < 0.0f                                           ) posX = 0.0f;
-	if (posX > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) posX = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE;
+	if (posX > ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_PADDLE) posX = ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_PADDLE;
 }
 
 
@@ -105,7 +105,7 @@ void ach::ArcadeArkanoid::controlsSelf() {
 void ach::ArcadeArkanoid::move() {
 	if (glue) {
 		pos.x = posX + (ARCADE_ARKANOID_PADDLE - ARCADE_ARKANOID_TILE_Y) / 2.0f;
-		pos.y = ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f;
+		pos.y = ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f;
 	} else {
 		pos += vel * frameClock;
 	}
@@ -154,7 +154,7 @@ void ach::ArcadeArkanoid::die() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::create() {
-	posX  = (ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_PADDLE) / 2.0f;
+	posX  = (ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_PADDLE) / 2.0f;
 	glue  = true;
 
 	for (int i = 0; i < ARCADE_ARKANOID_X; i++)
@@ -173,11 +173,11 @@ void ach::ArcadeArkanoid::create() {
 ***********************************************************************/
 bool ach::ArcadeArkanoid::check() {
 	if (pos.x < 0                                              ) {vel.x = -vel.x; pos.x = 0.0f                                           ; sman->play(hitWall);}
-	if (pos.x > ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_TILE_Y) {vel.x = -vel.x; pos.x = ARCADE_ARKANOID_SIZE_X - ARCADE_ARKANOID_TILE_Y; sman->play(hitWall);}
+	if (pos.x > ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_TILE_Y) {vel.x = -vel.x; pos.x = ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_TILE_Y; sman->play(hitWall);}
 	if (pos.y < 0                                              ) {vel.y = -vel.y; pos.y = 0.0f                                           ; sman->play(hitWall);}
-	if (pos.y > ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y) return false;
+	if (pos.y > ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y) return false;
 
-	if (pos.y > ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f)
+	if (pos.y > ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f)
 		collidePaddle();
 
 	collideTiles();
@@ -219,7 +219,7 @@ void ach::ArcadeArkanoid::collidePaddle() {
 	angle += 1.0f;
 	angle *= (PI / 12.0f);
 
-	pos.y =  ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f;
+	pos.y =  ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f;
 	vel.x =  ARCADE_ARKANOID_SPEED * cos(angle);
 	vel.y = -ARCADE_ARKANOID_SPEED * sin(angle);
 
@@ -302,7 +302,7 @@ bool ach::ArcadeArkanoid::collideTile(sf::FloatRect rect) {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::drawPaddle() {
-	paddle->setPosition(posX + ARCADE_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_OFFSET_Y);
+	paddle->setPosition(posX + ARCADE_OFFSET_X, ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_OFFSET_Y);
 	tex->draw(*paddle);
 }
 

@@ -22,8 +22,8 @@ ach::Arcade::Arcade(std::string caption) {
 	spr           = new sf::Sprite();
 	blip          = new sf::SoundBuffer();
 	hit           = new sf::SoundBuffer();
-	square        = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_Y - 1, ARCADE_ARKANOID_TILE_Y - 1));
-	border        = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_SIZE_X + 1, ARCADE_ARKANOID_SIZE_Y + 1));
+	square        = new sf::RectangleShape(sf::Vector2f(ARCADE_SQUARE        - 1, ARCADE_SQUARE        - 1));
+	border        = new sf::RectangleShape(sf::Vector2f(ARCADE_BORDER_SIZE_X + 1, ARCADE_BORDER_SIZE_Y + 1));
 	labelScore    = new sf::Text("SCORE: 0"          , *font, 30);
 	labelCaption  = new sf::Text(caption             , *font, 48);
 	labelStart    = new sf::Text("press start button", *font, 24);

@@ -189,8 +189,8 @@ bool ach::ArcadeSnake::check() {
 ***********************************************************************/
 void ach::ArcadeSnake::draw(sf::Vector2i pos, sf::Color color) {
 	square->setFillColor(color);
-	square->setPosition(ARCADE_OFFSET_X + ARCADE_SNAKE_TILE * pos.x,
-	                    ARCADE_OFFSET_Y + ARCADE_SNAKE_TILE * pos.y);
+	square->setPosition(ARCADE_OFFSET_X + ARCADE_SQUARE * pos.x,
+	                    ARCADE_OFFSET_Y + ARCADE_SQUARE * pos.y);
 
 	tex->draw(*square);
 }

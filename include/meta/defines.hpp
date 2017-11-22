@@ -43,8 +43,10 @@
 ***********************************************************************/
 #define ARCADE_OFFSET_X          3
 #define ARCADE_OFFSET_Y          53
+#define ARCADE_SQUARE            10
+#define ARCADE_BORDER_SIZE_X     250
+#define ARCADE_BORDER_SIZE_Y     200
 
-#define ARCADE_SNAKE_TILE        10
 #define ARCADE_SNAKE_X           25
 #define ARCADE_SNAKE_Y           20
 
@@ -53,12 +55,8 @@
 #define ARCADE_ARKANOID_X        10
 #define ARCADE_ARKANOID_Y        10
 #define ARCADE_ARKANOID_PADDLE   75
-#define ARCADE_ARKANOID_SIZE_X   250
-#define ARCADE_ARKANOID_SIZE_Y   200
 #define ARCADE_ARKANOID_SPEED    250.0f
 
-#define ARCADE_SIMON_SIZE_X      250
-#define ARCADE_SIMON_SIZE_Y      200
 #define ARCADE_SIMON_SIZE        12
 
 
