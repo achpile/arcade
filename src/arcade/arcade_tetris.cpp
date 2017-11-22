@@ -21,6 +21,9 @@ ach::ArcadeTetris::ArcadeTetris() : Arcade("TETЯIS") {
 
 	sndLand->loadFromFile("data/sfx/arcade/tetris/land.wav");
 	sndLine->loadFromFile("data/sfx/arcade/tetris/line.wav");
+
+	border->setPosition(sf::Vector2f(ARCADE_TETRIS_OFFSET_X - 1, ARCADE_OFFSET_Y      - 1));
+	border->setSize    (sf::Vector2f(ARCADE_TETRIS_SIZE_X   + 1, ARCADE_BORDER_SIZE_Y + 1));
 }
 
 

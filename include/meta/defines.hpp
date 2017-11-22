@@ -59,6 +59,9 @@
 
 #define ARCADE_SIMON_SIZE        12
 
+#define ARCADE_TETRIS_SIZE_X     100
+#define ARCADE_TETRIS_OFFSET_X   78
+
 
 
 /***********************************************************************
