@@ -24,6 +24,8 @@ ach::ArcadeTetris::ArcadeTetris() : Arcade("TETЯIS") {
 
 	border->setPosition(sf::Vector2f(ARCADE_TETRIS_OFFSET_X - 1, ARCADE_OFFSET_Y      - 1));
 	border->setSize    (sf::Vector2f(ARCADE_TETRIS_SIZE_X   + 1, ARCADE_BORDER_SIZE_Y + 1));
+
+	ticker.setTimer(0.75f);
 }
 
 
@@ -46,6 +48,9 @@ ach::ArcadeTetris::~ArcadeTetris() {
 
 ***********************************************************************/
 void ach::ArcadeTetris::initSelf() {
+	for (int i = 0; i < ARCADE_TETRIS_X; i++)
+		for (int j = 0; j < ARCADE_TETRIS_Y; j++)
+			field[i][j] = 0;
 }
 
 

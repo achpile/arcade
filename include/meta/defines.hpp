@@ -61,6 +61,8 @@
 
 #define ARCADE_TETRIS_SIZE_X     100
 #define ARCADE_TETRIS_OFFSET_X   78
+#define ARCADE_TETRIS_X          10
+#define ARCADE_TETRIS_Y          20
 
 
 

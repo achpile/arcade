@@ -12,8 +12,11 @@
 
 namespace ach {
 	struct ArcadeTetris : Arcade {
+		ach::Timer          ticker;
 		sf::SoundBuffer    *sndLand;
 		sf::SoundBuffer    *sndLine;
+
+		int                 field[ARCADE_TETRIS_X][ARCADE_TETRIS_Y];
 
 
 		 ArcadeTetris();
