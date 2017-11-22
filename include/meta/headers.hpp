@@ -31,7 +31,7 @@
 #include "misc/misc_pulsar.hpp"
 #include "misc/misc_sprite.hpp"
 #include "misc/misc_sound.hpp"
-#include "misc/misc_string.hpp"
+#include "misc/misc_base.hpp"
 
 #include "control/control_key.hpp"
 #include "control/control_pad.hpp"

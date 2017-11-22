@@ -19,6 +19,7 @@ ach::ArcadeHexagon::ArcadeHexagon() : Arcade("HEXAGON") {
 	scrTex = new sf::RenderTexture();
 	scrSpr = new sf::Sprite();
 	center = new sf::CircleShape(ARCADE_HEXAGON_RADIUS, 6);
+	player = new sf::CircleShape(2);
 	shape  = new sf::ConvexShape(4);
 
 	scrTex->create(ARCADE_BORDER_SIZE_X, ARCADE_BORDER_SIZE_Y, true);
@@ -28,6 +29,9 @@ ach::ArcadeHexagon::ArcadeHexagon() : Arcade("HEXAGON") {
 
 	scrSpr->setTexture(scrTex->getTexture());
 	scrSpr->setPosition(ARCADE_OFFSET_X, ARCADE_OFFSET_Y);
+
+	player->setOrigin(2, 2);
+	player->setFillColor(sf::Color::Green);
 
 	center->setOrigin  (ARCADE_HEXAGON_RADIUS   , ARCADE_HEXAGON_RADIUS   );
 	center->setPosition(ARCADE_BORDER_SIZE_X / 2, ARCADE_BORDER_SIZE_Y / 2);
@@ -53,6 +57,9 @@ ach::ArcadeHexagon::ArcadeHexagon() : Arcade("HEXAGON") {
 ach::ArcadeHexagon::~ArcadeHexagon() {
 	delete scrTex;
 	delete scrSpr;
+	delete center;
+	delete player;
+	delete shape;
 }
 
 
@@ -63,7 +70,12 @@ ach::ArcadeHexagon::~ArcadeHexagon() {
 
 ***********************************************************************/
 void ach::ArcadeHexagon::initSelf() {
-	rot = 0.0f;
+	rot      = 0.0f;
+	rotSpeed = 1;
+	pos      = PI / 3.0f;
+
+	create();
+	createRotor();
 }
 
 
@@ -79,14 +91,31 @@ void ach::ArcadeHexagon::updateSelf() {
 		ticker.reset();
 	}
 
+	if (!rotor.process())
+		createRotor();
+
+	rot += rotSpeed * frameClock;
+
 	center->setRotation(rot * RAD_TO_DEG);
 
-	scrTex->clear(sf::Color::Transparent);
+	for (int i = 0; i < 6; i++)
+		sectors[i] -= ARCADE_HEXAGON_SPEED * frameClock;
 
+	if (!check())
+		create();
+
+
+	scrTex->clear(sf::Color::Transparent);
 	scrTex->draw(*center);
 
 	for (int i = 0; i < 6; i++)
 		drawLine(i);
+
+	for (int i = 0; i < 6; i++)
+		drawShape(i, sectors[i]);
+
+	player->setPosition(getPos(pos, ARCADE_HEXAGON_RADIUS + 5.0f));
+	scrTex->draw(*player);
 
 	scrTex->display();
 	tex->draw(*scrSpr);
@@ -100,6 +129,8 @@ void ach::ArcadeHexagon::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeHexagon::controlsSelf() {
+	if (ctrl->keys[ach::caLeft ].state) pos -= frameClock * ARCADE_HEXAGON_MOVE;
+	if (ctrl->keys[ach::caRight].state) pos += frameClock * ARCADE_HEXAGON_MOVE;
 }
 
 
@@ -111,6 +142,56 @@ void ach::ArcadeHexagon::controlsSelf() {
 ***********************************************************************/
 void ach::ArcadeHexagon::tick() {
 	scoreInc();
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * check
+
+***********************************************************************/
+bool ach::ArcadeHexagon::check() {
+	for (int i = 0; i < 6; i++)
+		if (sectors[i] > ARCADE_HEXAGON_RADIUS - ARCADE_HEXAGON_THICKNESS)
+			return true;
+
+	return false;
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * create
+
+***********************************************************************/
+void ach::ArcadeHexagon::create() {
+	std::vector<int> list;
+
+	for (int i = 0; i < 6; i++)
+		list.push_back(i);
+
+	std::random_shuffle(list.begin(), list.end());
+
+	sectors[list[0]] = ARCADE_HEXAGON_MINRAD;
+	sectors[list[1]] = ARCADE_HEXAGON_MINRAD;
+	sectors[list[2]] = ARCADE_HEXAGON_MINRAD + ARCADE_HEXAGON_STEPRAD;
+	sectors[list[3]] = ARCADE_HEXAGON_MINRAD + ARCADE_HEXAGON_STEPRAD;
+	sectors[list[4]] = ARCADE_HEXAGON_MINRAD + ARCADE_HEXAGON_STEPRAD * 2.0f;
+	sectors[list[5]] = ARCADE_HEXAGON_MINRAD + ARCADE_HEXAGON_STEPRAD * 2.0f;
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * createRotor
+
+***********************************************************************/
+void ach::ArcadeHexagon::createRotor() {
+	rotSpeed = (-getSign(rotSpeed)) * getRandomFloat(0.5f * PI, 1.0f * PI);
+	rotor.setTimer(fabs(2 * PI / rotSpeed));
 }
 
 
@@ -151,8 +232,19 @@ void ach::ArcadeHexagon::drawShape(int i, float dist) {
 
 ***********************************************************************/
 sf::Vector2f ach::ArcadeHexagon::getPos(int i, float radius) {
-	float angle = rot + 2.0f * PI * ((float)i + 0.5f) / 6.0f;
+	float angle = 2.0f * PI * ((float)i + 0.5f) / 6.0f;
 	float rad   = (radius < ARCADE_HEXAGON_RADIUS) ? ARCADE_HEXAGON_RADIUS : radius;
 
-	return sf::Vector2f(cos(angle), sin(angle)) * rad + sf::Vector2f(ARCADE_BORDER_SIZE_X / 2, ARCADE_BORDER_SIZE_Y / 2);
+	return getPos(angle, rad);
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * getPos
+
+***********************************************************************/
+sf::Vector2f ach::ArcadeHexagon::getPos(float angle, float radius) {
+	return sf::Vector2f(cos(rot + angle), sin(rot + angle)) * radius + sf::Vector2f(ARCADE_BORDER_SIZE_X / 2, ARCADE_BORDER_SIZE_Y / 2);
 }
