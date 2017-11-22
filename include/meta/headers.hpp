@@ -41,6 +41,7 @@
 #include "arcade/arcade_arkanoid.hpp"
 #include "arcade/arcade_simon.hpp"
 #include "arcade/arcade_tetris.hpp"
+#include "arcade/arcade_hexagon.hpp"
 
 #include "externs.hpp"
 
