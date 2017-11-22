@@ -36,6 +36,7 @@ namespace ach {
 
 		void tick();
 		bool check();
+		bool collide(float angle);
 		void create();
 		void createRotor();
 		void drawLine(int i);

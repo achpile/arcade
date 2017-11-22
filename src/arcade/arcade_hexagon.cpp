@@ -94,6 +94,9 @@ void ach::ArcadeHexagon::updateSelf() {
 	if (!rotor.process())
 		createRotor();
 
+	if (collide(pos))
+		gameover();
+
 	rot += rotSpeed * frameClock;
 
 	center->setRotation(rot * RAD_TO_DEG);
@@ -129,8 +132,13 @@ void ach::ArcadeHexagon::updateSelf() {
 
 ***********************************************************************/
 void ach::ArcadeHexagon::controlsSelf() {
-	if (ctrl->keys[ach::caLeft ].state) pos -= frameClock * ARCADE_HEXAGON_MOVE;
-	if (ctrl->keys[ach::caRight].state) pos += frameClock * ARCADE_HEXAGON_MOVE;
+	if (ctrl->keys[ach::caLeft ].state)
+		if (!collide(pos - frameClock * ARCADE_HEXAGON_MOVE))
+			pos -= frameClock * ARCADE_HEXAGON_MOVE;
+
+	if (ctrl->keys[ach::caRight].state)
+		if (!collide(pos + frameClock * ARCADE_HEXAGON_MOVE))
+			pos += frameClock * ARCADE_HEXAGON_MOVE;
 }
 
 
@@ -156,6 +164,17 @@ bool ach::ArcadeHexagon::check() {
 		if (sectors[i] > ARCADE_HEXAGON_RADIUS - ARCADE_HEXAGON_THICKNESS)
 			return true;
 
+	return false;
+}
+
+
+
+/***********************************************************************
+     * ArcadeHexagon
+     * collide
+
+***********************************************************************/
+bool ach::ArcadeHexagon::collide(float angle) {
 	return false;
 }
 
