@@ -16,26 +16,15 @@
 
 ***********************************************************************/
 ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
-	score      = 0;
 	tile       = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_X - 1, ARCADE_ARKANOID_TILE_Y - 1));
 	paddle     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_PADDLE - 1, ARCADE_ARKANOID_TILE_Y - 1));
-	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_TILE_Y - 1, ARCADE_ARKANOID_TILE_Y - 1));
-	border     = new sf::RectangleShape(sf::Vector2f(ARCADE_ARKANOID_SIZE_X + 1, ARCADE_ARKANOID_SIZE_Y + 1));
-	labelScore = new sf::Text("SCORE: 0", *font, 30);
 	hitWall    = new sf::SoundBuffer();
 	hitTile    = new sf::SoundBuffer();
 	clear      = new sf::SoundBuffer();
 
-	border->setPosition(ARCADE_ARKANOID_OFFSET_X - 1, ARCADE_ARKANOID_OFFSET_Y - 1);
-	border->setFillColor(sf::Color::Transparent);
-	border->setOutlineColor(sf::Color::White);
-	border->setOutlineThickness(1);
-
 	paddle->setFillColor(sf::Color::Green);
 	square->setFillColor(sf::Color::Red  );
 	tile->setFillColor  (sf::Color::White);
-
-	labelScore->setPosition(5, 5);
 
 	hitWall->loadFromFile("data/sfx/arcade/arkanoid/wall.wav");
 	hitTile->loadFromFile("data/sfx/arcade/arkanoid/tile.wav");
@@ -50,14 +39,11 @@ ach::ArcadeArkanoid::ArcadeArkanoid() : Arcade("ARKANOID") {
 
 ***********************************************************************/
 ach::ArcadeArkanoid::~ArcadeArkanoid() {
-	delete square;
-	delete border;
 	delete tile;
 	delete paddle;
 	delete hitWall;
 	delete hitTile;
 	delete clear;
-	delete labelScore;
 }
 
 
@@ -68,10 +54,7 @@ ach::ArcadeArkanoid::~ArcadeArkanoid() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::initSelf() {
-	score = 0;
 	lives = 3;
-
-	labelScore->setString("SCORE: " + std::to_string(score));
 
 	create();
 }
@@ -84,9 +67,6 @@ void ach::ArcadeArkanoid::initSelf() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::updateSelf() {
-	tex->draw(*labelScore);
-	tex->draw(*border);
-
 	move();
 
 	for (int i = 0; i < ARCADE_ARKANOID_X; i++)
@@ -293,9 +273,8 @@ bool ach::ArcadeArkanoid::collideTile(sf::FloatRect rect) {
 		if (fabs(intersection.width ) < 0.1f) return false;
 		if (fabs(intersection.height) < 0.1f) return false;
 
-		score++;
+		scoreInc();
 		sman->play(hitTile);
-		labelScore->setString("SCORE: " + std::to_string(score));
 
 		if (fabs(intersection.width) > fabs(intersection.height)) {
 			vel.y  = -vel.y;
@@ -323,7 +302,7 @@ bool ach::ArcadeArkanoid::collideTile(sf::FloatRect rect) {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::drawPaddle() {
-	paddle->setPosition(posX + ARCADE_ARKANOID_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_ARKANOID_OFFSET_Y);
+	paddle->setPosition(posX + ARCADE_OFFSET_X, ARCADE_ARKANOID_SIZE_Y - ARCADE_ARKANOID_TILE_Y + ARCADE_OFFSET_Y);
 	tex->draw(*paddle);
 }
 
@@ -335,7 +314,7 @@ void ach::ArcadeArkanoid::drawPaddle() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::drawSquare() {
-	square->setPosition(pos.x + ARCADE_ARKANOID_OFFSET_X, pos.y + ARCADE_ARKANOID_OFFSET_Y);
+	square->setPosition(pos.x + ARCADE_OFFSET_X, pos.y + ARCADE_OFFSET_Y);
 	tex->draw(*square);
 }
 
@@ -348,7 +327,7 @@ void ach::ArcadeArkanoid::drawSquare() {
 ***********************************************************************/
 void ach::ArcadeArkanoid::drawLives() {
 	for (unsigned int i = 1; i <= lives; i++) {
-		square->setPosition(SCREEN_X - 15 * i, (ARCADE_ARKANOID_OFFSET_Y - ARCADE_ARKANOID_TILE_Y) / 2.0f);
+		square->setPosition(SCREEN_X - 15 * i, (ARCADE_OFFSET_Y - ARCADE_ARKANOID_TILE_Y) / 2.0f);
 		tex->draw(*square);
 	}
 }
@@ -361,6 +340,6 @@ void ach::ArcadeArkanoid::drawLives() {
 
 ***********************************************************************/
 void ach::ArcadeArkanoid::drawTile(int x, int y) {
-	tile->setPosition(ARCADE_ARKANOID_OFFSET_X + ARCADE_ARKANOID_TILE_X * x, ARCADE_ARKANOID_OFFSET_Y + ARCADE_ARKANOID_TILE_Y * y);
+	tile->setPosition(ARCADE_OFFSET_X + ARCADE_ARKANOID_TILE_X * x, ARCADE_OFFSET_Y + ARCADE_ARKANOID_TILE_Y * y);
 	tex->draw(*tile);
 }

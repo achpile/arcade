@@ -17,13 +17,9 @@ namespace ach {
 		sf::SoundBuffer    *clear;
 		sf::RectangleShape *tile;
 		sf::RectangleShape *paddle;
-		sf::RectangleShape *square;
-		sf::RectangleShape *border;
-		sf::Text           *labelScore;
 		sf::Vector2f        pos;
 		sf::Vector2f        vel;
 
-		unsigned int        score;
 		unsigned int        lives;
 		float               posX;
 		bool                tiles[ARCADE_ARKANOID_X][ARCADE_ARKANOID_Y];

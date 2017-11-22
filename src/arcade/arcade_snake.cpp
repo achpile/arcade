@@ -16,19 +16,7 @@
 
 ***********************************************************************/
 ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
-	score      = 0;
-	square     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE - 1, ARCADE_SNAKE_TILE - 1));
-	border     = new sf::RectangleShape(sf::Vector2f(ARCADE_SNAKE_TILE * ARCADE_SNAKE_X + 1, ARCADE_SNAKE_TILE * ARCADE_SNAKE_Y + 1));
-	labelScore = new sf::Text("SCORE: 0", *font, 30);
-	pickup     = new sf::SoundBuffer();
-
-	border->setPosition(ARCADE_SNAKE_OFFSET_X - 1, ARCADE_SNAKE_OFFSET_Y - 1);
-	border->setFillColor(sf::Color::Transparent);
-	border->setOutlineColor(sf::Color::White);
-	border->setOutlineThickness(1);
-
-	labelScore->setPosition(5, 5);
-
+	pickup = new sf::SoundBuffer();
 	pickup->loadFromFile("data/sfx/arcade/snake/pickup.wav");
 
 	ticker.setTimer(0.1f);
@@ -42,10 +30,7 @@ ach::ArcadeSnake::ArcadeSnake() : Arcade("SNAKE") {
 
 ***********************************************************************/
 ach::ArcadeSnake::~ArcadeSnake() {
-	delete square;
-	delete border;
 	delete pickup;
-	delete labelScore;
 }
 
 
@@ -58,10 +43,7 @@ ach::ArcadeSnake::~ArcadeSnake() {
 void ach::ArcadeSnake::initSelf() {
 	pulse.setPulse(0.25f);
 
-	score = 0;
 	dir   = sf::Vector2i(1, 0);
-
-	labelScore->setString("SCORE: " + std::to_string(score));
 
 	snake.clear();
 	snake.push_back(sf::Vector2i(3, ARCADE_SNAKE_Y / 2));
@@ -80,9 +62,6 @@ void ach::ArcadeSnake::initSelf() {
 
 ***********************************************************************/
 void ach::ArcadeSnake::updateSelf() {
-	tex->draw(*labelScore);
-	tex->draw(*border);
-
 	if (!ticker.process()) {
 		tick();
 		ticker.reset();
@@ -195,10 +174,7 @@ bool ach::ArcadeSnake::check() {
 		snake.push_back(sf::Vector2i(0, 0));
 		sman->play(pickup);
 		genFruit();
-
-
-		score++;
-		labelScore->setString("SCORE: " + std::to_string(score));
+		scoreInc();
 	}
 
 	return true;
@@ -213,8 +189,8 @@ bool ach::ArcadeSnake::check() {
 ***********************************************************************/
 void ach::ArcadeSnake::draw(sf::Vector2i pos, sf::Color color) {
 	square->setFillColor(color);
-	square->setPosition(ARCADE_SNAKE_OFFSET_X + ARCADE_SNAKE_TILE * pos.x,
-	                    ARCADE_SNAKE_OFFSET_Y + ARCADE_SNAKE_TILE * pos.y);
+	square->setPosition(ARCADE_OFFSET_X + ARCADE_SNAKE_TILE * pos.x,
+	                    ARCADE_OFFSET_Y + ARCADE_SNAKE_TILE * pos.y);
 
 	tex->draw(*square);
 }

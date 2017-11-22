@@ -14,13 +14,9 @@ namespace ach {
 	struct ArcadeSnake : Arcade {
 		ach::Timer          ticker;
 		sf::SoundBuffer    *pickup;
-		sf::RectangleShape *square;
-		sf::RectangleShape *border;
-		sf::Text           *labelScore;
 		sf::Vector2i        dir;
 		sf::Vector2i        fruit;
 
-		unsigned int        score;
 		int                 field[ARCADE_SNAKE_X * ARCADE_SNAKE_Y];
 
 		std::vector<sf::Vector2i> snake;

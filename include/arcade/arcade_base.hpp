@@ -19,18 +19,22 @@ namespace ach {
 
 
 	struct Arcade {
-		ach::ArcadeState   state;
-		ach::Pulsar        pulse;
-		sf::SoundBuffer   *blip;
-		sf::SoundBuffer   *hit;
-		sf::RenderTexture *tex;
-		sf::Sprite        *spr;
+		ach::ArcadeState    state;
+		ach::Pulsar         pulse;
+		sf::SoundBuffer    *blip;
+		sf::SoundBuffer    *hit;
+		sf::RenderTexture  *tex;
+		sf::Sprite         *spr;
+		sf::RectangleShape *border;
+		sf::RectangleShape *square;
 
-		sf::Text          *labelCaption;
-		sf::Text          *labelStart;
-		sf::Text          *labelGameover;
+		sf::Text           *labelScore;
+		sf::Text           *labelCaption;
+		sf::Text           *labelStart;
+		sf::Text           *labelGameover;
 
-		bool               running;
+		unsigned int        score;
+		bool                running;
 
 
 		         Arcade(std::string caption);
@@ -43,6 +47,10 @@ namespace ach {
 		void quit();
 		void reset();
 		void gameover();
+
+		void scoreInc();
+		void scoreReset();
+		void scoreUpdate();
 
 		virtual void initSelf()     {};
 		virtual void updateSelf()   {};
