@@ -172,9 +172,9 @@ void ach::ArcadeArkanoid::create() {
 
 ***********************************************************************/
 bool ach::ArcadeArkanoid::check() {
-	if (pos.x < 0                                              ) {vel.x = -vel.x; pos.x = 0.0f                                           ; sman->play(hitWall);}
+	if (pos.x < 0                                            ) {vel.x = -vel.x; pos.x = 0.0f                                         ; sman->play(hitWall);}
 	if (pos.x > ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_TILE_Y) {vel.x = -vel.x; pos.x = ARCADE_BORDER_SIZE_X - ARCADE_ARKANOID_TILE_Y; sman->play(hitWall);}
-	if (pos.y < 0                                              ) {vel.y = -vel.y; pos.y = 0.0f                                           ; sman->play(hitWall);}
+	if (pos.y < 0                                            ) {vel.y = -vel.y; pos.y = 0.0f                                         ; sman->play(hitWall);}
 	if (pos.y > ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y) return false;
 
 	if (pos.y > ARCADE_BORDER_SIZE_Y - ARCADE_ARKANOID_TILE_Y * 2.0f)
