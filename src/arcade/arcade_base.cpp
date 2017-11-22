@@ -25,7 +25,7 @@ ach::Arcade::Arcade(std::string caption) {
 	square        = new sf::RectangleShape(sf::Vector2f(ARCADE_SQUARE        - 1, ARCADE_SQUARE        - 1));
 	border        = new sf::RectangleShape(sf::Vector2f(ARCADE_BORDER_SIZE_X + 1, ARCADE_BORDER_SIZE_Y + 1));
 	labelScore    = new sf::Text("SCORE: 0"          , *font, 30);
-	labelCaption  = new sf::Text(caption             , *font, 48);
+	labelCaption  = new sf::Text(utf8(caption)       , *font, 48);
 	labelStart    = new sf::Text("press start button", *font, 24);
 	labelGameover = new sf::Text("GAME OVER"         , *font, 50);
 

@@ -31,6 +31,7 @@
 #include "misc/misc_pulsar.hpp"
 #include "misc/misc_sprite.hpp"
 #include "misc/misc_sound.hpp"
+#include "misc/misc_string.hpp"
 
 #include "control/control_key.hpp"
 #include "control/control_pad.hpp"
@@ -39,6 +40,7 @@
 #include "arcade/arcade_snake.hpp"
 #include "arcade/arcade_arkanoid.hpp"
 #include "arcade/arcade_simon.hpp"
+#include "arcade/arcade_tetris.hpp"
 
 #include "externs.hpp"
 
