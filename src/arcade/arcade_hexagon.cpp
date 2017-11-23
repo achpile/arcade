@@ -39,6 +39,8 @@ ach::ArcadeHexagon::ArcadeHexagon() : Arcade("HEXAGON") {
 	center->setOutlineColor(sf::Color::White);
 	center->setOutlineThickness(1);
 
+	border->setOutlineColor(sf::Color::Transparent);
+
 	line[0].color = sf::Color(100, 100, 100);
 	line[1].color = sf::Color(100, 100, 100);
 
