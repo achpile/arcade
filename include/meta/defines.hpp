@@ -72,6 +72,7 @@
 #define ARCADE_HEXAGON_MINRAD    185.0f
 #define ARCADE_HEXAGON_STEPRAD   75.0f
 
+#define ARCADE_SPEAR_PLAYER_SIZE 15.0f
 
 
 /***********************************************************************

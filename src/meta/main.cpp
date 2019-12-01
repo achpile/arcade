@@ -62,7 +62,7 @@ int main() {
 	Clock     = new sf::Clock;
 	ctrl      = new ach::ControlPad();
 	sman      = new ach::SoundManager();
-	arcade    = new ach::ArcadeHexagon();
+	arcade    = new ach::ArcadeSpear();
 	lastClock = Clock->getElapsedTime().asMilliseconds();
 
 	createWindow();
