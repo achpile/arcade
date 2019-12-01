@@ -73,6 +73,9 @@
 #define ARCADE_HEXAGON_STEPRAD   75.0f
 
 #define ARCADE_SPEAR_PLAYER_SIZE 15.0f
+#define ARCADE_SPEAR_BLOCK_SIZE  10.0f
+#define ARCADE_SPEAR_DIST        100.0f
+#define ARCADE_SPEAR_SPEED       100.0f
 
 
 /***********************************************************************
